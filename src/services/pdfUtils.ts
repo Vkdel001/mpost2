@@ -193,6 +193,28 @@ function drawCenteredText(text: string, y: number, size: number, font: any, colo
     drawTableRow(invoiceData[i], i);
   }
 
+// Draw Grand Total row
+yPosition -= lineHeight; // some space before total
+checkSpaceAndAddPage(lineHeight);
+
+const grandTotal = invoiceData.reduce((sum, item) => sum + (item.total ?? 0), 0);
+
+page.drawText('Total to be paid:', {
+  x: margin,
+  y: yPosition,
+  size: normalFontSize,
+  font: fontBold,
+  color: rgb(0, 0, 0),
+});
+
+page.drawText(grandTotal.toFixed(2), {
+  x: 460,
+  y: yPosition,
+  size: normalFontSize,
+  font: fontBold,
+  color: rgb(0, 0, 0),
+});
+
   // After table ends, add 2 lines space
   yPosition -= lineHeight * 2;
 

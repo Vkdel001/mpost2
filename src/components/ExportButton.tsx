@@ -23,6 +23,22 @@ export const ExportButton: React.FC<ExportButtonProps> = ({ data, disabled = fal
       'Total': item.total
     }));
 
+    //Calculate grand total
+    const grandTotal = data.reduce((sum, item) => sum + item.total, 0);
+
+   
+
+// Grand total row
+excelData.push({
+  'Invoice Date': '',
+  'Supplier Name': '',
+  'Description': 'GRAND TOTAL',
+  'Quantity': 0,
+  'Amount': 0,
+  'VAT': 0,
+  'Total': grandTotal
+});
+
     // Create workbook and worksheet
     const workbook = XLSX.utils.book_new();
     const worksheet = XLSX.utils.json_to_sheet(excelData);

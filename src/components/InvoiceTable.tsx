@@ -23,7 +23,7 @@ export const InvoiceTable: React.FC<InvoiceTableProps> = ({ data, onDataChange }
 
   const saveEdit = () => {
     if (editData) {
-      const updatedData = data.map(item => 
+      const updatedData = data.map(item =>
         item.id === editData.id ? editData : item
       );
       onDataChange(updatedData);
@@ -42,6 +42,8 @@ export const InvoiceTable: React.FC<InvoiceTableProps> = ({ data, onDataChange }
       setEditData({ ...editData, [field]: value });
     }
   };
+
+  const grandTotal = data.reduce((sum, item) => sum + item.total, 0);
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-US', {
@@ -66,38 +68,20 @@ export const InvoiceTable: React.FC<InvoiceTableProps> = ({ data, onDataChange }
           Review and edit the extracted information before exporting
         </p>
       </div>
-      
+
       <div className="overflow-x-auto">
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Date
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                InvoiceNo
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Ministry
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Description
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Quantity
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Amount
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Fee
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Total
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Actions
-              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">InvoiceNo</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ministry</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Quantity</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fee</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
@@ -126,8 +110,7 @@ export const InvoiceTable: React.FC<InvoiceTableProps> = ({ data, onDataChange }
                   ) : (
                     item.invoiceNumber
                   )}
-                </td>  
-                
+                </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                   {editingId === item.id ? (
                     <input
@@ -249,6 +232,17 @@ export const InvoiceTable: React.FC<InvoiceTableProps> = ({ data, onDataChange }
                 </td>
               </tr>
             ))}
+
+            {/* Grand Total Row */}
+            <tr className="bg-gray-100 font-semibold">
+              <td colSpan={7} className="px-6 py-4 text-right text-sm text-gray-700">
+                Grand Total
+              </td>
+              <td className="px-6 py-4 text-sm text-gray-900">
+                {formatCurrency(grandTotal)}
+              </td>
+              <td className="px-6 py-4"></td>
+            </tr>
           </tbody>
         </table>
       </div>
